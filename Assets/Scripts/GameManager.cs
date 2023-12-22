@@ -100,6 +100,9 @@ namespace GameJam
                 else
                 {
                     OnGameOver?.Invoke(this, null);
+
+                    var snowmans = FindObjectsOfType<Snowman>().ToList();
+                    snowmans.ForEach(x => Destroy(x.gameObject));
                 }
 
                 Cursor.lockState = CursorLockMode.None;

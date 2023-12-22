@@ -13,7 +13,7 @@ namespace GameJam
         private void Awake()
         {
             _rigidbody= GetComponent<Rigidbody>();
-            _rigidbody.AddRelativeForce(Vector3.left * _speed, ForceMode.Impulse);
+            _rigidbody.AddRelativeForce(Vector3.up * _speed, ForceMode.Impulse);
 
             Destroy(gameObject, _timeToDestroy);
         }
