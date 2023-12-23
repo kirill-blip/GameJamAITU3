@@ -27,7 +27,6 @@ namespace GameJam
             _isAfterWaves = isAfterWaves;
         }
 
-
         private void Start()
         {
             _closeButton.onClick.AddListener(() =>
@@ -58,7 +57,7 @@ namespace GameJam
         {
             StopAllCoroutines();
 
-            _text.text = "  ";
+            _text.text = "";
             _text.text = _text.text.Insert(_text.text.Length, _history);
             _skipButton.gameObject.SetActive(false);
 
@@ -93,7 +92,7 @@ namespace GameJam
             _menuButton.gameObject.SetActive(false);
             _closeButton.gameObject.SetActive(false);
             _skipButton.gameObject.SetActive(true);
-            _text.text = "  ";
+            _text.text = "";
         }
     }
 }

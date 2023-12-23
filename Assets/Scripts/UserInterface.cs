@@ -9,11 +9,10 @@ namespace GameJam
     {
         [SerializeField] private NextWavePanel _nextWavePanel;
         [SerializeField] private RestartWavePanel _restartWavePanel;
+        [SerializeField] private GameObject _endPanel;
 
         [SerializeField] private Button _menuButton;
         [SerializeField] private Slider _slider;
-
-        [SerializeField] private Prehistory _history;
 
         private GameManager _gameManager;
 
@@ -23,8 +22,6 @@ namespace GameJam
         private void Start()
         {
             _gameManager = FindObjectOfType<GameManager>();
-
-            _history.gameObject.SetActive(true);
 
             _gameManager.OnTimeChanged += OnTimeChanged;
             _gameManager.OnGameOver += OnGameOver;
@@ -45,17 +42,7 @@ namespace GameJam
         private void OnLastWavePlayed(object sender, EventArgs e)
         {
             _slider.value = 0;
-
-            string text = "Силы зла оказались сильными, но несмотря на трудности, мастерам игрушек удалось восстановить порядок на фабрике Санты. Сплоченные вместе, они противостояли коварным снеговикам и смогли использовать свою мастерскую, чтобы создать волшебную пушку, стреляющую сверкающими елками. Эти магические снаряды стали оружием против снеговиков, и каждая из них была пропитана благословением добра и радости.";
-            _history.gameObject.SetActive(true);
-            _history.Init(text, true);
-            _history.OnTextPrinted += OnTextPrinted;
-            _history.StartWriting();
-        }
-
-        private void OnTextPrinted(object sender, EventArgs e)
-        {
-            _menuButton.gameObject.SetActive(true);
+            _endPanel.SetActive(true);
         }
 
         private void OnGameLose(object sender, EventArgs e)

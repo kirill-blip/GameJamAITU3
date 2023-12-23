@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Wave 2
   m_EditorClassIdentifier: 
   WaveTime: 12
-  SnowmanCount: 7
-  SpawnTime: 1
+  SnowmanCount: 6
+  SpawnTime: 1.1
   SnowmanData: {fileID: 11400000, guid: aa733f82ac2025a4b8ff7d042f5e8912, type: 2}

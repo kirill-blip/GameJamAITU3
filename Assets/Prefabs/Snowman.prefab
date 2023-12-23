@@ -157,6 +157,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 100
+  _presentPosition: {fileID: 0}
+  _explosion: {fileID: 0}
+  _timeToWait: 2
+  _present: {fileID: 0}
 --- !u!195 &4821630626931312668
 NavMeshAgent:
   m_ObjectHideFlags: 0

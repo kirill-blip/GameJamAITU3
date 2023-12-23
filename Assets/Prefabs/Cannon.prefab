@@ -570,7 +570,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -250, y: 0}
-  m_SizeDelta: {x: 5, y: 5}
+  m_SizeDelta: {x: 15, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6569163574968590528
 Canvas:
@@ -1205,11 +1205,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124570df0b1d2ff46be530def3661a82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speedRotation: 40
+  _speedRotation: 35
   _maxRotationAngle: 60
   _sound: {fileID: 8300000, guid: ac48ea2882a477c4ba8d816ce6f29458, type: 3}
   _core: {fileID: 3377465762371485023, guid: 00bbdc7f74962814d9b7b4d40c8564b8, type: 3}
   _corePosition: {fileID: 3160982925042896915}
+  _timeBetweenShooting: 0.5
 --- !u!208 &3246069429461425738
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -1663,7 +1664,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: af14b160b4cd76148b16793e4857dc2d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

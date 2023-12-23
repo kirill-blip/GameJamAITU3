@@ -45,7 +45,7 @@ namespace GameJam
                 Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked;
             }
 
-            if (Input.GetMouseButton(0) && _currentTime >= _timeBetweenShooting)
+            if (Input.GetKey(KeyCode.Space) && _currentTime >= _timeBetweenShooting)
             {
                 Shoot();
                 _currentTime = 0;

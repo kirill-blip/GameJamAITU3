@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace GameJam
 {
@@ -9,7 +10,8 @@ namespace GameJam
     {
         public WaveData CurrentWaveData;
 
-        [SerializeField] private List<WaveData> WaveData;
+        [SerializeField] private List<WaveData> _waveData;
+        [SerializeField] private List<BackgroundSnowman> _backgroundSnowmen;
         [SerializeField] private Prehistory _prehistory;
 
         private float _waveTime = 30;
@@ -61,11 +63,12 @@ namespace GameJam
             else if (!_isGameOver && !_waveManager.IsThereSnowmenOnMap())
             {
                 _isGameOver = true;
+
                 if (!_waveManager.IsTherePresentsOnMap())
                 {
                     OnGameLose?.Invoke(this, null);
                 }
-                else if(_isLastLevel)
+                else if (_isLastLevel)
                 {
                     OnLastWavePlayed?.Invoke(this, null);
                     _prehistory.OnTextPrinted -= OnTextPrinted;
@@ -89,9 +92,14 @@ namespace GameJam
 
             _cannonController.StartMovement();
 
-            CurrentWaveData = WaveData[0];
+            CurrentWaveData = _waveData[0];
 
             _waveTime = CurrentWaveData.WaveTime;
+
+            foreach (var item in _backgroundSnowmen)
+            {
+                item.Move();
+            }
 
             _waveManager.StartNextWave(CurrentWaveData);
         }
@@ -100,14 +108,19 @@ namespace GameJam
         {
             _isGameOver = false;
 
-            WaveData.Remove(CurrentWaveData);
+            foreach (var item in _backgroundSnowmen)
+            {
+                item.Move();
+            }
 
-            if (WaveData.Count == 1)
+            _waveData.Remove(CurrentWaveData);
+
+            if (_waveData.Count == 1)
             {
                 _isLastLevel = true;
             }
 
-            CurrentWaveData = WaveData[0];
+            CurrentWaveData = _waveData[0];
 
             _currentWaveTime = 0;
             _waveTime = CurrentWaveData.WaveTime;

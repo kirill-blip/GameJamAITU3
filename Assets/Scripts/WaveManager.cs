@@ -18,6 +18,8 @@ namespace GameJam
         [SerializeField] private List<Transform> _targetPositions;
         [SerializeField] private List<Transform> _presentsPositions;
 
+        [SerializeField] private Vector2 _randomValues = new Vector2(2, 3);
+
         private List<Present> _presents = new();
 
         private List<Snowman> _snowmen = new();
@@ -125,9 +127,23 @@ namespace GameJam
 
         private void SpawnPresents()
         {
+            if (_presents.Count != 0)
+            {
+                for (int i = 0; i < _presents.Count; i++)
+                {
+                    Destroy(_presents[i].gameObject);
+                }
+            }
+
             foreach (var item in _presentsPositions)
             {
-                var present = Instantiate(_presentPrefab, item.position, Quaternion.identity);
+                Vector3 position = item.position;
+
+                position.x += Random.Range(_randomValues.x, _randomValues.y);
+                position.z += Random.Range(_randomValues.x, _randomValues.y);
+
+                var present = Instantiate(_presentPrefab, position, Quaternion.identity);
+                present.OnPresentDestroyed += OnPresentDestroyed;
                 _presents.Add(present);
             }
         }

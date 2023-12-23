@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Snowman 1
   m_EditorClassIdentifier: 
   Health: 20
-  Speed: 15
+  Speed: 17.5
