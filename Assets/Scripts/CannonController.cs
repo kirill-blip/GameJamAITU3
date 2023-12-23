@@ -26,9 +26,9 @@ namespace GameJam
             _audioSource = GetComponent<AudioSource>();
             _gameManager = FindObjectOfType<GameManager>();
 
-            _gameManager.OnGameOver += (sender, e) => StopMovement();
-            _gameManager.OnGameLose += (sender, e) => StopMovement();
-            _gameManager.OnLastWavePlayed += (sender, e) => StopMovement();
+            _gameManager.GameOvered += (sender, e) => StopMovement();
+            _gameManager.GameLosed += (sender, e) => StopMovement();
+            _gameManager.LastWavePlayed += (sender, e) => StopMovement();
         }
 
         private void Update()

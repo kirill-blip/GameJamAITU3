@@ -10,11 +10,13 @@ namespace GameJam
         [SerializeField] private Button _nextWaveButton;
         [SerializeField] private Button _menuButton;
 
-        public event EventHandler OnNextWaveButtonClicked;
+        private GameManager _gameManager;
 
         private void Start()
         {
-            _nextWaveButton.onClick.AddListener(() => OnNextWaveButtonClicked?.Invoke(this, null));
+            _gameManager = FindObjectOfType<GameManager>();
+
+            _nextWaveButton.onClick.AddListener(() => _gameManager.StartNextLevel());
             _menuButton.onClick.AddListener(() => SceneManager.LoadScene(0));
         }
     }

@@ -16,7 +16,7 @@ namespace GameJam
         private void Start()
         {
             _gameManager = FindObjectOfType<GameManager>();
-            _gameManager.OnLastWavePlayed += OnLastWavePlayed;
+            _gameManager.LastWavePlayed += OnLastWavePlayed;
         }
 
         private void OnLastWavePlayed(object sender, System.EventArgs e)

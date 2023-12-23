@@ -16,26 +16,35 @@ namespace GameJam
 
         private GameManager _gameManager;
 
-        public NextWavePanel NextWavePanel => _nextWavePanel;
-        public RestartWavePanel RestartWavePanel => _restartWavePanel;
-
         private void Start()
         {
             _gameManager = FindObjectOfType<GameManager>();
 
-            _gameManager.OnTimeChanged += OnTimeChanged;
-            _gameManager.OnGameOver += OnGameOver;
-            _gameManager.OnGameLose += OnGameLose;
-            _gameManager.OnLastWavePlayed += OnLastWavePlayed;
-
-            _nextWavePanel.OnNextWaveButtonClicked += OnNextWaveButtonClicked;
+            _gameManager.TimeChanged += OnTimeChanged;
+            _gameManager.GameOvered += OnGameOver;
+            _gameManager.GameLosed += OnGameLose;
+            _gameManager.LastWavePlayed += OnLastWavePlayed;
+            _gameManager.NextLevelStarted += GameManager_NextLevelStarted;
+            _gameManager.WaveRestarted += GameManager_WaveRestarted;
 
             _menuButton.onClick.AddListener(() => SceneManager.LoadScene(0));
         }
 
-        private void OnNextWaveButtonClicked(object sender, EventArgs e)
+        private void InitSlider()
         {
             _slider.value = 0;
+            _slider.gameObject.SetActive(true);
+        }
+
+        private void GameManager_WaveRestarted(object sender, EventArgs e)
+        {
+            InitSlider();
+            _restartWavePanel.gameObject.SetActive(false);
+        }
+
+        private void GameManager_NextLevelStarted(object sender, EventArgs e)
+        {
+            InitSlider();
             _nextWavePanel.gameObject.SetActive(false);
         }
 

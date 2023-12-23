@@ -26,7 +26,6 @@ namespace GameJam
         private NavMeshAgent _navMeshAgent;
 
         public event EventHandler<Snowman> SnowmanKilled;
-        public event EventHandler<Snowman> SnowmanDestroyed;
 
         private void Awake()
         {
@@ -41,15 +40,10 @@ namespace GameJam
             }
         }
 
-        public void Init(SnowmanData data, Present present)
+        public void Init(SnowmanData data)
         {
             _health = data.Health;
             _navMeshAgent.speed = data.Speed;
-
-            if (present is not null)
-            {
-                _present = present;
-            }
         }
 
         private IEnumerator OnSnowmanHere()
@@ -87,14 +81,9 @@ namespace GameJam
             {
                 var explosion = Instantiate(_explosion, transform.position, Quaternion.identity);
                 explosion.Play();
+
                 SnowmanKilled?.Invoke(this, this);
             }
-        }
-
-        public void Kill()
-        {
-            SnowmanDestroyed?.Invoke(this, this);
-            Destroy(gameObject);
         }
 
         public void SetDestination(Vector3 target)
@@ -109,11 +98,9 @@ namespace GameJam
 
         public void SetPresent(Present present)
         {
-            if (present is not null)
-            {
-                _present = present;
-                SetDestination(_present.transform.position);
-            }
+            _present = present;
+            _present.IsBusy = true;
+            _navMeshAgent.SetDestination(_present.transform.position);
         }
 
         public bool HaveNotPresent()

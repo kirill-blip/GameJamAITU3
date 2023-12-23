@@ -20,30 +20,27 @@ namespace GameJam
 
         [SerializeField] private Vector2 _randomValues = new Vector2(2, 3);
 
-        private List<Present> _presents = new();
-
-        private List<Snowman> _snowmen = new();
-
         private GameManager _gameManager;
 
-        public event EventHandler OnWaveOver;
         public event EventHandler OnPresentsOvered;
 
         private void Start()
         {
             _gameManager = FindObjectOfType<GameManager>();
-            _gameManager.OnGameLose += (sender, e) => StopSpawn();
-            _gameManager.OnGameOver += (sender, e) => StopSpawn();
-
-            _presents = FindObjectsOfType<Present>().ToList();
-            _presents.ForEach(x => x.OnPresentDestroyed += OnPresentDestroyed);
+            _gameManager.GameLosed += (sender, e) => StopSpawn();
+            _gameManager.GameOvered += (sender, e) => StopSpawn();
         }
 
         private void OnPresentDestroyed(object sender, Present present)
         {
-            _presents.Remove(present);
+            if (present is not null)
+            {
+                present.OnPresentDestroyed -= OnPresentDestroyed;
+            }
 
-            if (_presents.Count == 0)
+            var presents = FindObjectsOfType<Present>().Where(x => x.enabled);
+
+            if (!presents.Any())
             {
                 OnPresentsOvered?.Invoke(this, null);
             }
@@ -61,45 +58,43 @@ namespace GameJam
 
                 Snowman snowman = Instantiate(_snowmanPrefab, position, Quaternion.identity);
 
-                Present present = _presents.Find(x => !x.IsBusy);
-                Vector3 targetPosition = Vector3.zero;
+                var presents = FindObjectsOfType<Present>().Where(x => x.enabled).ToList();
+                Present present = presents.Find(x => !x.IsBusy);
 
                 if (present is null)
                 {
-                    targetPosition = GenerateDestination();
+                    snowman.SetDestination(GenerateDestination());
                 }
                 else
                 {
-                    present.IsBusy = true;
-                    targetPosition = present.transform.position;
+                    snowman.SetPresent(present);
                 }
 
-                snowman.Init(WaveData.SnowmanData, present);
-
-                snowman.SetDestination(targetPosition);
+                snowman.Init(WaveData.SnowmanData);
                 snowman.SnowmanKilled += SnowmanKilled;
-                snowman.SnowmanDestroyed += SnowmanDestroyed;
-
-                _snowmen.Add(snowman);
 
                 yield return new WaitForSeconds(WaveData.SpawnTime);
             }
-        }
-
-        private void SnowmanDestroyed(object sender, Snowman snowman)
-        {
-            _snowmen.Remove(snowman);
         }
 
         private void SnowmanKilled(object sender, Snowman e)
         {
             Present present = e.GetPresent();
 
-            _snowmen.Remove(e);
+            if (present is not null)
+            {
+                present.IsBusy = false;
+            }
+
+            e.SnowmanKilled -= SnowmanKilled;
+
             Destroy(e.gameObject);
 
-            var snowman = _snowmen.Find(x => x.HaveNotPresent());
-            if (snowman is not null)
+            List<Snowman> snowmen = FindObjectsOfType<Snowman>().Where(x => x.enabled).ToList();
+
+            var snowman = snowmen.Find(x => x.HaveNotPresent());
+
+            if (present is not null && snowman is not null)
             {
                 snowman.SetPresent(present);
             }
@@ -116,8 +111,12 @@ namespace GameJam
 
         public void StartNextWave(WaveData waveData)
         {
-            _snowmen.ForEach(x => Destroy(x.gameObject));
-            _snowmen.Clear();
+            List<Snowman> snowmen = FindObjectsOfType<Snowman>().Where(x => x.enabled).ToList();
+
+            if (snowmen.Any())
+            {
+                snowmen.ForEach(x => Destroy(x.gameObject));
+            }
 
             WaveData = waveData;
 
@@ -127,11 +126,13 @@ namespace GameJam
 
         private void SpawnPresents()
         {
-            if (_presents.Count != 0)
+            var presents = FindObjectsOfType<Present>().Where(x => x.enabled).ToList();
+
+            if (presents.Any())
             {
-                for (int i = 0; i < _presents.Count; i++)
+                for (int i = 0; i < presents.Count; i++)
                 {
-                    Destroy(_presents[i].gameObject);
+                    Destroy(presents[i].gameObject);
                 }
             }
 
@@ -144,7 +145,6 @@ namespace GameJam
 
                 var present = Instantiate(_presentPrefab, position, Quaternion.identity);
                 present.OnPresentDestroyed += OnPresentDestroyed;
-                _presents.Add(present);
             }
         }
 
@@ -155,12 +155,23 @@ namespace GameJam
 
         public bool IsThereSnowmenOnMap()
         {
-            return _snowmen.Count != 0;
+            return FindObjectsOfType<Snowman>().Where(x => x.enabled).Any();
         }
 
         public bool IsTherePresentsOnMap()
         {
-            return _presents.Count != 0;
+            return FindObjectsOfType<Present>().Where(x => x.enabled).Any();
+        }
+
+        public void ResetWave()
+        {
+            SpawnPresents();
+            StartNextWave(WaveData);
+        }
+
+        public void Kill(Snowman snowman)
+        {
+            Destroy(snowman.gameObject);
         }
     }
 }

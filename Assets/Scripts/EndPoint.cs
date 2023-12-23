@@ -1,17 +1,21 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GameJam
 {
     public class EndPoint : MonoBehaviour
     {
-        public event EventHandler SnowmanCollided;
+        private WaveManager _waveManager;
+
+        private void Start()
+        {
+            _waveManager = FindObjectOfType<WaveManager>();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out Snowman snowman))
             {
-                snowman.Kill();
+                _waveManager.Kill(snowman);
             }
         }
     }

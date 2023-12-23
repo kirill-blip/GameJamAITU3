@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -10,9 +9,17 @@ namespace GameJam
         [SerializeField] private Button _restartWaveButton;
         [SerializeField] private Button _menuButton;
 
+        private GameManager _gameManager;
+
         private void Start()
         {
-            _restartWaveButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex));
+            _gameManager = FindObjectOfType<GameManager>();
+
+            _restartWaveButton.onClick.AddListener(() =>
+            {
+                _gameManager.RestartWave();
+            });
+
             _menuButton.onClick.AddListener(() => SceneManager.LoadScene(0));
         }
     }
