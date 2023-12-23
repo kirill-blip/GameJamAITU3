@@ -10,7 +10,7 @@ namespace GameJam
         public WaveData CurrentWaveData;
 
         [SerializeField] private List<WaveData> WaveData;
-        private int _currentIndex = 0;
+        [SerializeField] private Prehistory _prehistory;
 
         private float _waveTime = 30;
         private float _currentWaveTime = 0;
@@ -18,10 +18,12 @@ namespace GameJam
         private bool _isGameOver = false;
         private bool _isGameLose = false;
         private bool _isLastLevel = false;
+        private bool _isGameStarted = false;
 
         private UserInterface _userInterface;
         private WaveManager _waveManager;
         private EndPoint _endPoint;
+        private CannonController _cannonController;
 
         public event EventHandler OnTimeChanged;
         public event EventHandler OnGameOver;
@@ -33,53 +35,20 @@ namespace GameJam
             _userInterface = FindObjectOfType<UserInterface>();
             _waveManager = FindObjectOfType<WaveManager>();
             _endPoint = FindObjectOfType<EndPoint>();
+            _cannonController = FindObjectOfType<CannonController>();
 
-            _endPoint.SnowmanCollided += SnowmanCollided;
-            _userInterface.OnNextLevelButtonClicked += OnNextLevelButtonClicked;
+            _cannonController.StopMovement();
 
-            CurrentWaveData = WaveData[_currentIndex];
+            _waveManager.OnPresentsOvered += StopGame;
 
-            _waveTime = CurrentWaveData.WaveTime;
-
-            _waveManager.StartNextWave(CurrentWaveData);
-        }
-
-        private void SnowmanCollided(object sender, EventArgs e)
-        {
-            OnGameLose?.Invoke(this, null);
-            _isGameLose = true;
-
-            var snowmans = FindObjectsOfType<Snowman>().ToList();
-            snowmans.ForEach(x => Destroy(x.gameObject));
-        }
-
-        private void OnNextLevelButtonClicked(object sender, EventArgs e)
-        {
-            _isGameOver = false;
-
-            _currentIndex++;
-
-            if (_currentIndex < WaveData.Count)
-            {
-                CurrentWaveData = WaveData[_currentIndex];
-            }
-            else
-            {
-                _isLastLevel = true;
-            }
-
-            _currentWaveTime = 0;
-            _waveTime = CurrentWaveData.WaveTime;
-
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
-            _waveManager.StartNextWave(CurrentWaveData);
+            _prehistory.OnTextPrinted += OnTextPrinted;
+            _endPoint.SnowmanCollided += StopGame;
+            _userInterface.NextWavePanel.OnNextWaveButtonClicked += OnNextLevelButtonClicked;
         }
 
         private void Update()
         {
-            if (_isGameLose)
+            if (_isGameLose || !_isGameStarted)
             {
                 return;
             }
@@ -89,25 +58,77 @@ namespace GameJam
                 _currentWaveTime += Time.deltaTime;
                 OnTimeChanged?.Invoke(this, null);
             }
-            else if (!_isGameOver)
+            else if (!_isGameOver && !_waveManager.IsThereSnowmenOnMap())
             {
                 _isGameOver = true;
-
-                if (_isLastLevel)
+                if (!_waveManager.IsTherePresentsOnMap())
+                {
+                    OnGameLose?.Invoke(this, null);
+                }
+                else if(_isLastLevel)
                 {
                     OnLastWavePlayed?.Invoke(this, null);
+                    _prehistory.OnTextPrinted -= OnTextPrinted;
                 }
                 else
                 {
                     OnGameOver?.Invoke(this, null);
-
-                    var snowmans = FindObjectsOfType<Snowman>().ToList();
-                    snowmans.ForEach(x => Destroy(x.gameObject));
                 }
 
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
+        }
+
+        private void OnTextPrinted(object sender, EventArgs e)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
+            _isGameStarted = true;
+
+            _cannonController.StartMovement();
+
+            CurrentWaveData = WaveData[0];
+
+            _waveTime = CurrentWaveData.WaveTime;
+
+            _waveManager.StartNextWave(CurrentWaveData);
+        }
+
+        private void OnNextLevelButtonClicked(object sender, EventArgs e)
+        {
+            _isGameOver = false;
+
+            WaveData.Remove(CurrentWaveData);
+
+            if (WaveData.Count == 1)
+            {
+                _isLastLevel = true;
+            }
+
+            CurrentWaveData = WaveData[0];
+
+            _currentWaveTime = 0;
+            _waveTime = CurrentWaveData.WaveTime;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            _cannonController.StartMovement();
+            _waveManager.StartNextWave(CurrentWaveData);
+        }
+
+        private void StopGame(object sender, EventArgs e)
+        {
+            OnGameLose?.Invoke(this, null);
+            _isGameLose = true;
+
+            var snowmans = FindObjectsOfType<Snowman>().ToList();
+            snowmans.ForEach(x => Destroy(x.gameObject));
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
         public float GetCurrentWaveTime()

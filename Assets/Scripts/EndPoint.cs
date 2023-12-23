@@ -9,9 +9,9 @@ namespace GameJam
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out Snowman _))
+            if (other.TryGetComponent(out Snowman snowman))
             {
-                SnowmanCollided?.Invoke(this, null);
+                snowman.Kill();
             }
         }
     }

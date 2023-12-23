@@ -23,9 +23,23 @@ namespace GameJam
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            _lights.ForEach(x => x.gameObject.SetActive(false));
-            _rendrers.ForEach(x => x.materials[1].color = _defaultMaterial.color);
-            _doorRendrer.materials[2].color = _defaultMaterial.color;
+            foreach (var item in _lights)
+            {
+                if (item is not null)
+                {
+                    item.gameObject.SetActive(false);
+                }
+            }
+
+            foreach (var item in _rendrers)
+            {
+                if (item is not null)
+                {
+                    item.materials[1].color = _defaultMaterial.color;
+                }
+            }
+
+            _doorRendrer!.materials[2].color = _defaultMaterial.color;
         }
     }
 }
