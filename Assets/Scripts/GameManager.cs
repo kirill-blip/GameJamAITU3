@@ -116,6 +116,18 @@ namespace GameJam
             _waveManager.StartNextWave(CurrentWaveData);
         }
 
+        private void StopGame(object sender, EventArgs e)
+        {
+            GameLosed?.Invoke(this, null);
+            _isGameLose = true;
+
+            var snowmans = FindObjectsOfType<Snowman>().ToList();
+            snowmans.ForEach(x => Destroy(x.gameObject));
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
         public void StartNextLevel()
         {
             _isGameOver = false;
@@ -143,18 +155,6 @@ namespace GameJam
             _cannonController.StartMovement();
             _waveManager.StartNextWave(CurrentWaveData);
             NextLevelStarted?.Invoke(this, null);
-        }
-
-        private void StopGame(object sender, EventArgs e)
-        {
-            GameLosed?.Invoke(this, null);
-            _isGameLose = true;
-
-            var snowmans = FindObjectsOfType<Snowman>().ToList();
-            snowmans.ForEach(x => Destroy(x.gameObject));
-
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
         }
 
         public float GetCurrentWaveTime()

@@ -1017,8 +1017,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0418\u0433\u0440\u0430\u0442\u044C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dd706fbe626626040b1425e921b67eaf, type: 2}
-  m_sharedMaterial: {fileID: -2223362744420936164, guid: dd706fbe626626040b1425e921b67eaf, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 548eb045ffe42fb48b512d7f3f28fc72, type: 2}
+  m_sharedMaterial: {fileID: 8973110649432822725, guid: 548eb045ffe42fb48b512d7f3f28fc72, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1078,7 +1078,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 10}
+  m_margin: {x: 0, y: 0, z: 0, w: 5}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1126,7 +1126,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 400, y: 300}
+  m_AnchoredPosition: {x: 400, y: 356}
   m_SizeDelta: {x: 850, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &870642986
@@ -1152,15 +1152,15 @@ MonoBehaviour:
   m_text: "\u0425\u0440\u0430\u043D\u0438\u0442\u0435\u043B\u0438 \u041F\u043E\u0434\u0430\u0440\u043A\u043E\u0432:
     \u0421\u043D\u0435\u0436\u043D\u043E\u0435 \u041F\u0440\u043E\u0442\u0438\u0432\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0435"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dd706fbe626626040b1425e921b67eaf, type: 2}
-  m_sharedMaterial: {fileID: -2223362744420936164, guid: dd706fbe626626040b1425e921b67eaf, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 548eb045ffe42fb48b512d7f3f28fc72, type: 2}
+  m_sharedMaterial: {fileID: 8973110649432822725, guid: 548eb045ffe42fb48b512d7f3f28fc72, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4287276031
+  m_fontColor: {r: 1, g: 0.64038897, b: 0.5424528, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1177,10 +1177,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55
+  m_fontSize: 61.7
   m_fontSizeBase: 55
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
@@ -6540,8 +6540,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0412\u044B\u0445\u043E\u0434"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dd706fbe626626040b1425e921b67eaf, type: 2}
-  m_sharedMaterial: {fileID: -2223362744420936164, guid: dd706fbe626626040b1425e921b67eaf, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 548eb045ffe42fb48b512d7f3f28fc72, type: 2}
+  m_sharedMaterial: {fileID: 8973110649432822725, guid: 548eb045ffe42fb48b512d7f3f28fc72, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6601,7 +6601,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 10}
+  m_margin: {x: 0, y: 0, z: 0, w: 5}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -9129,7 +9129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5538689570004554453}
   m_Layer: 0
-  m_Name: Snow Man_01
+  m_Name: Commander Shepard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

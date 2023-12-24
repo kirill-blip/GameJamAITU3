@@ -28,13 +28,10 @@ namespace GameJam
             {
                 float rotationThisFrame = _rotationSpeed * Time.deltaTime * Mathf.Sign(targetRotation);
 
-                // Обновляем текущий угол вращения
                 currentRotation += rotationThisFrame;
 
-                // Создаем кватернион для вращения вокруг оси Y
                 Quaternion rotation = Quaternion.Euler(0f, rotationThisFrame, 0f);
 
-                // Применяем вращение
                 _door.transform.rotation *= rotation;
 
                 yield return null;

@@ -11,6 +11,9 @@ namespace GameJam
         [SerializeField] private RestartWavePanel _restartWavePanel;
         [SerializeField] private GameObject _endPanel;
 
+        [SerializeField] private Button _restartButton;
+        [SerializeField] private Button _secondMenuButton;
+
         [SerializeField] private Button _menuButton;
         [SerializeField] private Slider _slider;
 
@@ -27,6 +30,8 @@ namespace GameJam
             _gameManager.NextLevelStarted += GameManager_NextLevelStarted;
             _gameManager.WaveRestarted += GameManager_WaveRestarted;
 
+            _restartButton.onClick.AddListener(() => SceneManager.LoadScene(1));
+            _secondMenuButton.onClick.AddListener(() => SceneManager.LoadScene(0));
             _menuButton.onClick.AddListener(() => SceneManager.LoadScene(0));
         }
 
